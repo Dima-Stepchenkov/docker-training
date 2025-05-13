@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  flask-app:
+    image: python:3.9-slim
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    environment:
+      - FLASK_ENV=development
+    command: sh -c "pip install -r requirements.txt && python HelloWorld.py"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - flask-app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
