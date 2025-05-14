@@ -1,9 +1,8 @@
 #!/bin/bash
 
+mkdir -p logs
 
-docker network create app-network 2>/dev/null || true
+docker compose up --build -d
 
-
-docker compose up -d --build
-
-echo "Aplication avalible on http://localhost"
+echo "Aplication avaliable http://localhost"
+echo "Flask logs ./logs/flask.log"

@@ -2,13 +2,15 @@ version: '3.8'
 
 services:
   flask-app:
-    image: python:3.9-slim
-    working_dir: /app
+    build: 
+      context: ./app
+      args:
+        USER_ID: ${UID:-1000}
     volumes:
       - ./app:/app
+      - ./logs:/app/logs
     environment:
       - FLASK_ENV=development
-    command: sh -c "pip install -r requirements.txt && python HelloWorld.py"
     networks:
       - app-network
 
@@ -25,4 +27,3 @@ services:
 
 networks:
   app-network:
-    driver: bridge
